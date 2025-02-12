@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -24,10 +25,16 @@ public class GamePanel extends JPanel implements Runnable{
 	public final int screenwidth = tileSize * maxScreenCol; //768 pixels
 	public final int screenHeight = tileSize * maxScreenRow; //576 pixels
 	
+	//WORLD SETTINGS
+	public final int maxWorldCol = 50;
+	public final int maxWorldRow = 50;
+	public final int worldWidth = tileSize * maxWorldCol;
+	public final int worldHeight = tileSize * maxWorldRow;
+	
 	KeyHandler keyH = new KeyHandler();
 	Thread gameThread;
 	
-	Player player = new Player(this, keyH);
+	public Player player = new Player(this, keyH);
 	TileManager tileManager = new TileManager(this);
 	
 	public GamePanel() {
@@ -46,6 +53,7 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	long timer = 0;
 	int drawCount = 0;
+	int fpsCount = 0;
 	
 	@Override
 	public void run() {
@@ -75,6 +83,7 @@ public class GamePanel extends JPanel implements Runnable{
 				timer += System.nanoTime() - lastTime;
 				if(timer >= 1000000000) {
 					System.out.println("FPS: " + drawCount);
+					fpsCount = drawCount;
 					drawCount = 0;
 		            timer = 0;
 				}	
@@ -99,6 +108,11 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		tileManager.draw(g2);
 		player.draw(g2);
+		
+		//Put FPS on the screen
+		g2.setFont(new Font("Arial", Font.BOLD, 16));
+		g2.setColor(Color.WHITE); 
+		g2.drawString("FPS: " + Integer.toString(fpsCount), 10, 15);
 		
 		g2.dispose();
 	}
