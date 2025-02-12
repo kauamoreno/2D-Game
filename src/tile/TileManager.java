@@ -28,12 +28,32 @@ public class TileManager {
 	
 	public void getTileImage() {
 		
+		boolean[] collision = new boolean[36];
+		collision[16] = true;
+		collision[18] = true;
+		collision[19] = true;
+		collision[20] = true;
+		collision[21] = true;
+		collision[22] = true;
+		collision[23] = true;
+		collision[24] = true;
+		collision[25] = true;
+		collision[26] = true;
+		collision[27] = true;
+		collision[28] = true;
+		collision[29] = true;
+		collision[30] = true;
+		collision[31] = true;
+		collision[32] = true;
+		collision[35] = true;
+		
 		try {
 			int x = 0;
 			
 			while(x < tile.length) {
 				String path = String.format("/tiles/%03d.png", x); //Format x to have 3 decimals of extension
 				tile[x] = new Tile();
+				tile[x].collision = collision[x];
 				tile[x].image = ImageIO.read(getClass().getResourceAsStream(path));
 				x++;
 			}
